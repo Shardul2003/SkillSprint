@@ -6,8 +6,9 @@ export default async function handler(req, res) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(req.body),
+        body: req.body.input,
       });
+      console.log("request: ", req.body.input); // check request
       const data = await response.json();
       res.status(200).json(data);
     } catch (error) {

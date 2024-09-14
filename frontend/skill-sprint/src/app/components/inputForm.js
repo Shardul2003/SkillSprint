@@ -12,6 +12,7 @@ const InputForm = () => {
     setResponse('');
 
     try {
+      console.log("input: ", input)
       const res = await fetch('/api/gptresult', {
         method: 'POST',
         headers: {
@@ -19,7 +20,7 @@ const InputForm = () => {
         },
         body: JSON.stringify({ input }),  // Send input as JSON
       });
-
+      console.log("input: ", input) // check input
       if (!res.ok) {
         const errorData = await res.json();
         setError(errorData.message || 'An error occurred');

@@ -94,12 +94,15 @@ def scraper(link):
         file.write(soup.prettify())
 
 @app.route('/api/gptresult', methods=['POST'])
-def gpt_result():
-    data = request.get_json()
+def gptresult():
+    print("backend request: ", request)
+    data = request.get_json
+    print(data['input'])
     load_dotenv()
 
     openai.api_key = os.getenv("OPENAI_API_KEY")
-    scraper(data['input'])  # Call scraper with the URL
+    # scraper(data['input'])  # Call scraper with the URL
+    scraper(request)
 
     with open('job_description.txt', 'r') as file:
         job_description = file.read()
