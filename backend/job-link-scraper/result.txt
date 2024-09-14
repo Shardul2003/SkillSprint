@@ -1,0 +1,1 @@
+"1. **Frontend Technologies**\n   - React\n   - React Native\n\n2. **Backend Technologies**\n   - NodeJS\n   - Typescript\n\n3. **Data Storage Solutions**\n   - Redis\n   - Postgres\n   - DynamoDB\n\n4. **Data Processing & Analytics**\n   - Python\n   - Clickhouse\n\n5. **Infrastructure & DevOps**\n   - AWS\n   - Go\n   - Infrastructure as Code (IaC)"
