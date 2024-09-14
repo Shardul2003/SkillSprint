@@ -1,0 +1,59 @@
+'use client'
+import { useState } from 'react';
+
+const InputForm = () => {
+  const [input, setInput] = useState('');
+  const [response, setResponse] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError('');
+    setResponse('');
+
+    try {
+      const res = await fetch('/api/gptresult', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ input }),  // Send input as JSON
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        setError(errorData.message || 'An error occurred');
+        return;
+      }
+
+      const data = await res.json();
+      setResponse(data.message);  // Extract and set the message from response
+    } catch (error) {
+      setError('Error: ' + error.message);
+    }
+  };
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Enter Input:
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder='Enter link'
+          />
+        </label>
+        <button type="submit">Submit</button>
+      </form>
+      <div>
+        <h2>Response:</h2>
+        {response && <p>{response}</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+      </div>
+    </div>
+  );
+};
+
+export default InputForm;
