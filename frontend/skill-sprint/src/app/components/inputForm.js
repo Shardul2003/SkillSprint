@@ -13,12 +13,11 @@ const InputForm = () => {
 
     try {
       console.log("input: ", input)
-      const res = await fetch('/api/gptresult', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ input }),  // Send input as JSON
+      const res = await fetch(`http://127.0.0.1:5000/api/gptresult?input=${encodeURIComponent(input)}`, {
+        method: 'GET',
+        // headers: {
+        //   'Content-Type': 'application/json',
+        // },
       });
       console.log("input: ", input) // check input
       if (!res.ok) {
