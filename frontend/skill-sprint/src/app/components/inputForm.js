@@ -35,7 +35,7 @@ const InputForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-800">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-SSgray">
         <h1 className="text-6xl font-bold mb-4 mt-8 text-center text-white">
           SkillSprint
         </h1>
@@ -53,7 +53,7 @@ const InputForm = () => {
           />
           <button
             type="submit"
-            className="ml-2 px-6 py-3 bg-blue-500 text-black rounded-lg hover:bg-blue-600 focus:outline-none" // Fully rounded and spaced
+            className="ml-2 px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none" // Fully rounded and spaced
           >
             Enter
           </button>
