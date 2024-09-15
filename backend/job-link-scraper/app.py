@@ -49,7 +49,7 @@ def gptresult():
     with open('job_description.txt', 'r') as file:
         job_description = file.read()
 
-    prompt = "This is data from a job application. Group the tech stack required and expected of this job into 5 technical categories. Make sure there is no repeating items in the categories, meaning that each category should be unique from another. Just name the tools and technologies, do not give explanations for each. Avoid giving a summary of the job posting or details about the posting other than qualifications/skills required for the job. "
+    prompt = os.getenv("OPENAI_PROMPT")
     # Azure OpenAI GPT API call
     response = openai.chat.completions.create(
         model="gpt-4o-mini",  # Replace this with your Azure OpenAI deployment name
@@ -91,26 +91,46 @@ def gptresult():
             title = ''
             technologies = []
 
+        # title = title[:-1]
         technologies.pop(0)
+
+        final_technologies = []
+        for tech in technologies:
+            supplementary = get_youtube_resources(tech)  # Get the supplementary materials for each technology
+            final_technologies.append({"technology": tech, "supplementary": supplementary})
+
+
         new_item = {
             'title' : title,
-            'technologies' : technologies,
+            'technologies' : final_technologies,
         }
-        
+
         id = i
         data[id] = new_item
 
-        # data['title'] = title
-        # data['technologies'] = technologies.copy()
-        # print("TITLE FOUND ", title)
-        # print("TECHS FOUND ", technologies)
-
 
     # Convert the list to JSON format
-    json_output = json.dumps(data, indent=2)
+    # json_output = json.dumps(data, indent=2)
     print("JSON OUTPUT ", data)
     # return data
     return jsonify({'message' : data})
+
+
+def get_youtube_resources(tech):
+    search_url = "https://www.googleapis.com/youtube/v3/search"
+    params = {
+        "part": "snippet",
+        "q": f"{tech} tutorial",
+        "key": os.getenv("YOUTUBE_API_KEY"),
+        "type": "video",
+        "maxResults": 2
+    }
+    response = requests.get(search_url, params=params)
+    videos = response.json().get('items', [])
+    resources = [{"name": video['snippet']['title'], "url": f"https://www.youtube.com/watch?v={video['id']['videoId']}"} for video in videos]
+    return resources
+
+
 
 if __name__ == '__main__':
     app.run(port=5000)

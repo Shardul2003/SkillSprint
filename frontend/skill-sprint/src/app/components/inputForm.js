@@ -58,23 +58,16 @@ const InputForm = () => {
             Enter
           </button>
         </form>
-      {/* <HomePage /> */}
+      
+      <br>
+
+      </br>
       
       <div>
         <TechCards response={response}/>
-        {/* {Object.entries(response).map(([key, value]) => (
-          <div key={key}>
-            <h2>{value.title}</h2>
-            <ul>
-              {value.technologies.map((tech, index) => (
-                <li key={index}>{tech}</li>
-              ))}
-            </ul>
-          </div>
-        ))} */}
-        {/* {response && <p>{response}</p>} */}
         {error && <p style={{ color: 'red' }}>{error}</p>}
       </div>
+
     </div>
   );
 };
