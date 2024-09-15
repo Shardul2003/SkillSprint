@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react';
+import TechCards from './TechCards';
 
 const InputForm = () => {
   const [input, setInput] = useState('');
@@ -34,23 +35,34 @@ const InputForm = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Enter Input:
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-800">
+        <h1 className="text-6xl font-bold mb-4 mt-8 text-center text-white">
+          SkillSprint
+        </h1>
+        <p className="text-lg text-center mb-8 text-white max-w-2xl">
+          Enter a job posting to receive a recommended crash course study guide for the dedicated job posting!
+        </p>
+
+        <form onSubmit={handleSubmit} className="flex items-center w-full max-w-2xl">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder='Enter link'
+            placeholder="Enter your job posting here"
+            className="p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-black" // Fully rounded
           />
-        </label>
-        <button type="submit">Submit</button>
-      </form>
+          <button
+            type="submit"
+            className="ml-2 px-6 py-3 bg-blue-500 text-black rounded-lg hover:bg-blue-600 focus:outline-none" // Fully rounded and spaced
+          >
+            Enter
+          </button>
+        </form>
+      {/* <HomePage /> */}
+      
       <div>
-        <h2>Response:</h2>
-        <div>
-        {Object.entries(response).map(([key, value]) => (
+        <TechCards response={response}/>
+        {/* {Object.entries(response).map(([key, value]) => (
           <div key={key}>
             <h2>{value.title}</h2>
             <ul>
@@ -59,8 +71,7 @@ const InputForm = () => {
               ))}
             </ul>
           </div>
-        ))}
-        </div>
+        ))} */}
         {/* {response && <p>{response}</p>} */}
         {error && <p style={{ color: 'red' }}>{error}</p>}
       </div>
