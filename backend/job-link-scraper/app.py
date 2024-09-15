@@ -5,6 +5,8 @@ import requests
 from bs4 import BeautifulSoup
 import os
 from dotenv import load_dotenv
+import re
+import json
 
 app = Flask(__name__)
 
@@ -58,7 +60,57 @@ def gptresult():
     )
 
     res = response.choices[0].message.content
-    return jsonify({'message': res})  # Ensure response is JSON
+
+    # Split the input text into sections based on the numbering
+    sections = re.split(r'(\d+\.)', res)
+
+    data = {}
+
+    # Iterate over the sections to extract titles and technologies
+    for i in range(1, len(sections), 2):
+        # sections[i] is the numbering like '1.', '2.', etc.
+        # sections[i+1] is the content following the numbering
+        content = sections[i+1].strip()
+        print("SECTION CONTENT: ", content, "\n")
+
+        title_pattern = r"\*\*(.*?)\*\*"
+        title_match = re.search(title_pattern, content)
+        
+        if title_match:
+            title = title_match.group(1).strip()
+            # Find the position where the title ends
+            end_of_title = title_match.end()
+            # Extract the remaining text after the title
+            remaining_text = content[end_of_title:].strip(' -')
+            if remaining_text:
+                # Split the remaining text by ' - ' to get the list of technologies
+                technologies = [tech.strip() for tech in remaining_text.split(' - ')]
+            else:
+                technologies = []
+        else:
+            title = ''
+            technologies = []
+
+        technologies.pop(0)
+        new_item = {
+            'title' : title,
+            'technologies' : technologies,
+        }
+        
+        id = i
+        data[id] = new_item
+
+        # data['title'] = title
+        # data['technologies'] = technologies.copy()
+        # print("TITLE FOUND ", title)
+        # print("TECHS FOUND ", technologies)
+
+
+    # Convert the list to JSON format
+    json_output = json.dumps(data, indent=2)
+    print("JSON OUTPUT ", data)
+    # return data
+    return jsonify({'message' : data})
 
 if __name__ == '__main__':
     app.run(port=5000)
