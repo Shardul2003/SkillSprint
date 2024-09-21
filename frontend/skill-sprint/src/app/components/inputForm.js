@@ -16,9 +16,6 @@ const InputForm = () => {
       console.log("input: ", input)
       const res = await fetch(`http://127.0.0.1:5000/api/gptresult?input=${encodeURIComponent(input)}`, {
         method: 'GET',
-        // headers: {
-        //   'Content-Type': 'application/json',
-        // },
       });
       console.log("input: ", input) // check input
       if (!res.ok) {

@@ -60,7 +60,7 @@
             cdnEndpoint: "prod-wd12.myworkdaycdn.com",
             useCdn: true,
             maintenancePageUrl: "https://wd12.myworkday.com/wday/drs/outage?t=salesforce&s=External_Career_Site",
-            token: "598bee5d-6d00-4738-bd84-e9f3ae9236a9",
+            token: "1f555d01-7f5e-43a1-8731-c3cefffaa712",
             environment: "PROD",
             isExternal: true,
             postingAvailable: true,

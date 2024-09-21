@@ -36,15 +36,13 @@ def gptresult():
     openai.api_key = os.getenv("OPENAI_API_KEY")
 
     input_data = request.args.get('input')  # Get the input data from query parameters
-    # return {"message" : input_data}
     if not input_data:
         return jsonify({'message': input_data}), 400
 
     print("backend request: ", request)
     print("Input received: ", input_data)
 
-    # Here you would call your scraper function with input_data
-    scraper(input_data)  # Assuming scraper function processes the URL
+    scraper(input_data)  # Scraper function processes the URL
 
     with open('job_description.txt', 'r') as file:
         job_description = file.read()
@@ -52,7 +50,7 @@ def gptresult():
     prompt = os.getenv("OPENAI_PROMPT")
     # Azure OpenAI GPT API call
     response = openai.chat.completions.create(
-        model="gpt-4o-mini",  # Replace this with your Azure OpenAI deployment name
+        model="gpt-4o-mini", 
         messages=[
             {"role": "system", "content": "You are an expert in analyzing job descriptions."},
             {"role": "user", "content": f"{prompt} {job_description}"}
@@ -110,9 +108,7 @@ def gptresult():
 
 
     # Convert the list to JSON format
-    # json_output = json.dumps(data, indent=2)
     print("JSON OUTPUT ", data)
-    # return data
     return jsonify({'message' : data})
 
 
